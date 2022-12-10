@@ -23,7 +23,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Restore dependencies
-        run: dotnet restore ./test/Lambda6.Tests/Lambda6.Tests.csproj
+        run: dotnet restore ./test/Lambda6.Tests/Lambda6.Tests.csproj --runtime linux-x64
 
       - name: Build project
         run: dotnet build ./test/Lambda6.Tests/Lambda6.Tests.csproj --no-restore
