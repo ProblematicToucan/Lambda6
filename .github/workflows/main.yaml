@@ -16,10 +16,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
 
+      - name: Restore dependencies
+        run: dotnet restore ./test/Lambda6.Tests/Lambda6.Tests.csproj
+
+      - name: Build project
+        run: dotnet build ./test/Lambda6.Tests/Lambda6.Tests.csproj --no-restore
+
+      - name: Testing
+        run: dotnet test test/Lambda6.Tests/Lambda6.Tests.csproj --no-build --verbosity normal
+
       - name: Publish
-        run: dotnet publish ./src/Lambda6/Lambda6.csproj --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish
+        run: dotnet publish ./src/Lambda6/Lambda6.csproj --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish --no-restore
