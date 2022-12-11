@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Cloudformation CD/CI with Github Actions : Lambda6
+
+Parameters:
+  LambdaFunctionRole:
+    Description: Lambda function role name
+    Type: String
+
+  S3BucketName:
+    Description: S3 S3Bucket Name used for storing artifact
+    Type: String
+
+Resources:
+  Lambda6Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: Lambda6-Cloudformation
+      Handler: Lambda6::Lambda6.Function::FunctionHandler
+      Description: Sample .Net Core Lambda function deployed by Cloudformation & Github Actions
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/${LambdaFunctionRole}
+      Code:
+        S3Bucket: !Sub ${S3BucketName}
+        S3Key: !Sub lambda-Lambda6.zip
+
+Outputs:
+  LambdaARN:
+    Description: Arn Lambda6 function
+    Value: !GetAtt Lambda6Function.Arn

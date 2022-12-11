@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET Core Build
+name: .NET Core Build + CloudFormation
 
 on:
   push:
@@ -32,4 +32,20 @@ jobs:
         run: dotnet test test/Lambda6.Tests/Lambda6.Tests.csproj --no-build --verbosity normal
 
       - name: Publish
-        run: dotnet publish ./src/Lambda6/Lambda6.csproj --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish --no-restore
+        run: dotnet publish ./src/Lambda6/Lambda6.csproj -r linux-x64 -c Release -o ./artifact/publish --no-self-contained --no-restore
+
+      - name: Zipping Published File
+        uses: thedoctor0/zip-release@main
+        with:
+          type: "zip"
+          directory: ./artifact/publish
+          filename: ../Lambda6.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Lambda6-artifact
+          path: |
+            ./artifact
+            ./.cloudformation/deploy.yaml
+            !./artifact/publish
