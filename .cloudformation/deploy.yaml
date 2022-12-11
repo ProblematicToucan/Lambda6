@@ -17,6 +17,7 @@ Resources:
     Properties:
       FunctionName: Lambda6-Cloudformation
       Handler: Lambda6::Lambda6.Function::FunctionHandler
+      Runtime: dotnet6
       Description: Sample .Net Core Lambda function deployed by Cloudformation & Github Actions
       Role: !Sub ${LambdaFunctionRole}
       Code:
