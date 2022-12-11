@@ -21,7 +21,7 @@ Resources:
       Role: !Sub ${LambdaFunctionRole}
       Code:
         S3Bucket: !Sub ${S3BucketName}
-        S3Key: !Sub lambda-Lambda6.zip
+        S3Key: Lambda6.zip
 
 Outputs:
   LambdaARN:
