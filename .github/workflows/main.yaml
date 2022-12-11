@@ -41,10 +41,13 @@ jobs:
           directory: ./artifact/publish
           filename: ../Lambda6.zip
 
+      - name: Copy CloudFormation Template to Artifact
+        run: cp ./.cloudformation/deploy.yaml ./artifact/deploy.yaml
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: Lambda6-artifact
           path: |
-            ./artifact/Lambda6.zip
-            ./.cloudformation/deploy.yaml
+            ./artifact
+            !./artifact/publish
