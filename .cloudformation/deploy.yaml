@@ -4,7 +4,7 @@ Description: >
 
 Parameters:
   LambdaFunctionRole:
-    Description: Lambda function role name
+    Description: ARN Lambda function role
     Type: String
 
   S3BucketName:
@@ -17,11 +17,12 @@ Resources:
     Properties:
       FunctionName: Lambda6-Cloudformation
       Handler: Lambda6::Lambda6.Function::FunctionHandler
+      Runtime: dotnet6
       Description: Sample .Net Core Lambda function deployed by Cloudformation & Github Actions
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/${LambdaFunctionRole}
+      Role: !Sub ${LambdaFunctionRole}
       Code:
         S3Bucket: !Sub ${S3BucketName}
-        S3Key: !Sub lambda-Lambda6.zip
+        S3Key: Lambda6.zip
 
 Outputs:
   LambdaARN:
