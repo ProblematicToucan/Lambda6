@@ -88,6 +88,6 @@ jobs:
         with:
           name: Lambda6-ghaction-stack
           template: artifact/template.yaml
-          parameter-overrides: |
-            "LambdaFunctionRole=${{ secrets.LAMBDA_FUNCTION_ROLE }}"
+          parameter-overrides: >-
+            LambdaFunctionRole=${{ secrets.LAMBDA_FUNCTION_ROLE }}
           no-fail-on-empty-changeset: "1"
