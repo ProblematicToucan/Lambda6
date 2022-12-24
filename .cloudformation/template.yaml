@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Lambda6 : Example lambda function deployment using CloudFormation stacks.
+
+Parameters:
+  LambdaFunctionRole:
+    Description: ARN Lambda function role
+    Type: String
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  Lambda6Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Lambda6-Cloudformation
+      Handler: Lambda6::Lambda6.Function::FunctionHandler
+      Runtime: dotnet6
+      Role: !Sub ${LambdaFunctionRole}
+      CodeUri:
+        Bucket: artifact-bucket-gh128
+        Key: lambda6/code.zip
+      Description: Sample .Net Core lambda function that will be deployed by Github Actions & Cloudformation.
+      Events:
+        CallLambda6:
+          Type: Api
+          Properties:
+            Path: /lambda6
+            Method: any
+            
+
+Outputs:
+  Lambda6ARN:
+    Description: Arn Lambda6 function
+    Value: !GetAtt Lambda6Function.Arn
+
+  # ServerlessRestApi is an implicit API created out of
+  # Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  Lambda6API:
+    Description: Get API
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/lambda6/"
